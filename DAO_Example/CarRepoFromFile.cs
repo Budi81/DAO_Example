@@ -14,7 +14,7 @@ namespace DAO_Example
     {
         private string fileName = "dane.txt";
 
-        public void CreateCar(string[] carInfo)
+        public List<Car> CreateCar(string[] carInfo)
         {
             List<Car> allCars = GetAllCars(); 
             Car car = new Car
@@ -27,16 +27,17 @@ namespace DAO_Example
 
             allCars.Add(car);
 
-            WriteFile(allCars);
+            return allCars;
+
         }
 
-        public void DelateCar(Car car)
+        public List<Car> DelateCar(Car car)
         {
             var allCars = GetAllCars();
             allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));
             Console.WriteLine($@"Registration number: {car.RegistrationNumber} delated from database.");
 
-            WriteFile(allCars);
+            return allCars;
         }
          
         public void WriteFile(List<Car> allCars)
@@ -97,11 +98,23 @@ namespace DAO_Example
            return GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
         }
 
-        public Car UpdateCar(Car car)
+        public List<Car> UpdateCar(Car car, string[] carInfo)
         {
-            var updatedCar = GetCar(car.RegistrationNumber);
-            return GetCar(car.RegistrationNumber);
+            List<Car> allCars = GetAllCars();
 
+            if (allCars.Contains(car))
+            {
+                car.RegistrationNumber = carInfo[0];
+                car.Name = carInfo[1];
+                car.Model = carInfo[2];
+                car.YearOfProduction = Convert.ToInt32(carInfo[3]);
+            }
+            else
+            {
+                Console.WriteLine("No such record in database.");
+            }
+
+            return allCars;
         }
     }
 }

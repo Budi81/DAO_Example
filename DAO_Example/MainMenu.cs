@@ -24,7 +24,7 @@ namespace DAO_Example
 
         public string RegistrationNumberInput()
         {
-            Console.Write("Give registration number: ");
+            Console.Write("Input registration number of the record you want to edit: ");
             string selectedCar = Console.ReadLine().ToUpper();
             Console.Clear();
 
@@ -72,15 +72,19 @@ namespace DAO_Example
                     break;
                 case 3:
 
-                    repo.CreateCar(CreateCarInput());
+                    var createdRecord =repo.CreateCar(CreateCarInput());
+                    repo.WriteFile(createdRecord);
 
                     break;
                 case 4:
-                    RegistrationNumberInput();
+                    var updatedRecord = repo.UpdateCar(repo.GetCar(RegistrationNumberInput()), CreateCarInput());
+                    repo.WriteFile(updatedRecord);
 
                     break;
                 case 5:
-                    repo.DelateCar(repo.GetCar(RegistrationNumberInput()));
+                    var delatedRecord = repo.DelateCar(repo.GetCar(RegistrationNumberInput()));
+                    repo.WriteFile(delatedRecord);
+
                     break;
                 case 6:
                     endProgram = true;

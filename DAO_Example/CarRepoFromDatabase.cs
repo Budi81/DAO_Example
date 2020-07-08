@@ -41,12 +41,12 @@ namespace DAO_Example
             return cars;
         }
 
-        public void CreateCar(string[] carInfo)
+        public List<Car> CreateCar(string[] carInfo)
         {
             throw new NotImplementedException();
         }
 
-        public void DelateCar(Car car)
+        public List<Car> DelateCar(Car car)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +57,12 @@ namespace DAO_Example
         }
 
 
-        public Car UpdateCar(Car car)
+        public List<Car> UpdateCar(Car car, string[] carInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteFile(List<Car> allCars)
         {
             throw new NotImplementedException();
         }

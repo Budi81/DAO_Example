@@ -11,12 +11,14 @@ namespace DAO_Example
     {
         List<Car> GetAllCars();
 
-        void CreateCar(string[] carInfo);
+        List<Car> CreateCar(string[] carInfo);
 
-        Car UpdateCar(Car car);
+        List<Car> UpdateCar(Car car, string[] carInfo);
 
-        void DelateCar(Car car);
+        List<Car> DelateCar(Car car);
 
         Car GetCar(string registrationNumber);
+
+        void WriteFile(List<Car> allCars);
     }
 }
