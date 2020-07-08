@@ -13,12 +13,12 @@ namespace DAO_Example
             {
                 ICarRepo repo = new CarRepoFromFile();
 
-                MainMenu menu = new MainMenu();
+                ConsoleMainMenu menu = new ConsoleMainMenu();
 
                 menu.ShowMenu();
                 var userChoice = int.Parse(Console.ReadLine());
 
-                Console.Clear();
+                menu.ConsoleClear();
                 var allCars = repo.GetAllCars();
 
                 menu.UserChoice(userChoice, allCars, repo, endProgram);

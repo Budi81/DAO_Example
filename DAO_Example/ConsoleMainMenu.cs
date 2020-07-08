@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAO_Example
 {
-    public class MainMenu
+    public class ConsoleMainMenu
     {
         private string[] menuOptions = { "Show all records", "Find record", "Create record", 
             "Update record", "Delate record", "Exit" };
@@ -99,6 +99,11 @@ namespace DAO_Example
                     Console.WriteLine("Wrong Choice");
                     break;
             }
+        }
+
+        public void ConsoleClear()
+        {
+            Console.Clear();
         }
     }
 }
