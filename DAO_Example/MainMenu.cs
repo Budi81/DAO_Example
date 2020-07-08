@@ -53,6 +53,11 @@ namespace DAO_Example
             return carInput;
         }
 
+        public void EndProgram(bool endProgram)
+        {
+            endProgram = true;
+        }
+
         public void UserChoice(int userChoice, List<Car> allCars, ICarRepo repo, bool endProgram)
         {
             switch (userChoice)
@@ -87,7 +92,7 @@ namespace DAO_Example
 
                     break;
                 case 6:
-                    endProgram = true;
+                    EndProgram(endProgram);
 
                     break;
                 default:
