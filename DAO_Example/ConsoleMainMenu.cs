@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DAO_Example
@@ -40,15 +41,51 @@ namespace DAO_Example
             Console.WriteLine(new string('-', 30));
         }
 
-        public string[] CreateCarInput()
+        public Dictionary<string, string> CreateCarInput()
         {
-            string[] carInput = {"car's Registration Number", "car's make", "car's model", "car's year of production"};
+            Dictionary<string, string> carInput = new Dictionary<string, string>()
+            {
+                {"Registration Number", string.Empty},
+                {"make", string.Empty},
+                {"model", string.Empty},
+                {"year of production", string.Empty}
+            };
+            //string[] carInput = {"car's Registration Number", "car's make", "car's model", "car's year of production"};
 
             foreach (var item in carInput)
             {
-                Console.Write($"Input {item}: ");
-                carInput[Array.IndexOf(carInput, item)] = Console.ReadLine();
+                Console.Write($"Input new car's {item.Key}: ");
+                carInput[item.Key] = Console.ReadLine();
             }
+
+            return carInput;
+        }
+
+        public Dictionary<string, string> UpdateCarInput(Car car)
+        {
+            Dictionary<string, string> carInput = new Dictionary<string, string>()
+            {
+                {"Registration number", car.RegistrationNumber},
+                {"Make", car.Name},
+                {"Model", car.Model},
+                {"Year of production", car.YearOfProduction.ToString()}
+            };
+
+            Console.WriteLine(new string('-', 40));
+            foreach (var item in carInput)
+            {
+                Console.WriteLine($"{item.Key}: ", item.Value);
+            }
+            Console.WriteLine(new string('-', 40));
+
+
+            Console.WriteLine("Which record you want to update:\n" +
+                $"1) {carInput.Keys.ToList()[0]}\n" +
+                $"2) {carInput.Keys.ToList()[1]}\n" +
+                $"3) {carInput.Keys.ToList()[2]}\n" +
+                $"4) {carInput.Keys.ToList()[3]}\n");
+
+            Console.ReadLine();
 
             return carInput;
         }
@@ -82,7 +119,8 @@ namespace DAO_Example
 
                     break;
                 case 4:
-                    var updatedRecord = repo.UpdateCar(repo.GetCar(RegistrationNumberInput()), CreateCarInput());
+                    var recordToUpdate = repo.GetCar(RegistrationNumberInput());
+                    var updatedRecord = repo.UpdateCar(recordToUpdate,UpdateCarInput(recordToUpdate));
                     repo.WriteFile(updatedRecord);
 
                     break;

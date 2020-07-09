@@ -11,9 +11,9 @@ namespace DAO_Example
     {
         List<Car> GetAllCars();
 
-        List<Car> CreateCar(string[] carInfo);
+        List<Car> CreateCar(Dictionary<string, string> carInfo);
 
-        List<Car> UpdateCar(Car car, string[] carInfo);
+        List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo);
 
         List<Car> DelateCar(Car car);
 

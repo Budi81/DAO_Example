@@ -14,15 +14,15 @@ namespace DAO_Example
     {
         private string fileName = "dane.txt";
 
-        public List<Car> CreateCar(string[] carInfo)
+        public List<Car> CreateCar(Dictionary<string, string> carInfo)
         {
             List<Car> allCars = GetAllCars(); 
             Car car = new Car
             {
-                RegistrationNumber = carInfo[0],
-                Name = carInfo[1],
-                Model = carInfo[2],
-                YearOfProduction = Convert.ToInt32(carInfo[3])
+                RegistrationNumber = carInfo["Registration Number"],
+                Name = carInfo["make"],
+                Model = carInfo["model"],
+                YearOfProduction = Convert.ToInt32(carInfo["year of production"])
             };
 
             allCars.Add(car);
@@ -58,8 +58,8 @@ namespace DAO_Example
             {
                 foreach (var item in allCars)
                 {
-                    string[] line = new string[] { $"{item.RegistrationNumber}", $"{item.Name}", 
-                        $"{item.Model}", $"{item.YearOfProduction}"};
+                    string line = $"{item.RegistrationNumber}, {item.Name}, " +
+                        $"{item.Model}, {item.YearOfProduction}";
 
                     sw.WriteLine(line);
                 }
@@ -98,16 +98,16 @@ namespace DAO_Example
            return GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
         }
 
-        public List<Car> UpdateCar(Car car, string[] carInfo)
+        public List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo)
         {
             List<Car> allCars = GetAllCars();
 
             if (allCars.Contains(car))
             {
-                car.RegistrationNumber = carInfo[0];
-                car.Name = carInfo[1];
-                car.Model = carInfo[2];
-                car.YearOfProduction = Convert.ToInt32(carInfo[3]);
+                car.RegistrationNumber = carInfo["Registration Number"];
+                car.Name = carInfo["Make"];
+                car.Model = carInfo["Model"];
+                car.YearOfProduction = Convert.ToInt32(carInfo["Year of production"]);
             }
             else
             {
