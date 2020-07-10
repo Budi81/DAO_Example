@@ -41,7 +41,7 @@ namespace DAO_Example
             return cars;
         }
 
-        public List<Car> CreateCar(Dictionary<string, string> carInfo)
+        public Car CreateCar(Dictionary<string, string> carInfo)
         {
             throw new NotImplementedException();
         }

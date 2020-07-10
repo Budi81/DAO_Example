@@ -4,14 +4,13 @@ using System.Text;
 
 namespace DAO_Example
 {
-    /// <summary>
+
     /// Data Access Interface
-    /// </summary>
     public interface ICarRepo
     {
         List<Car> GetAllCars();
 
-        List<Car> CreateCar(Dictionary<string, string> carInfo);
+        Car CreateCar(Dictionary<string, string> carInfo);
 
         List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo);
 

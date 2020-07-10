@@ -7,35 +7,30 @@ using System.Text;
 
 namespace DAO_Example
 {
-    /// <summary>
+
     /// Concrete Class
-    /// </summary>
     public class CarRepoFromFile : ICarRepo
     {
         private string fileName = "dane.txt";
 
-        public List<Car> CreateCar(Dictionary<string, string> carInfo)
-        {
-            List<Car> allCars = GetAllCars(); 
+        public Car CreateCar(Dictionary<string, string> carInfo)
+        { 
             Car car = new Car
             {
                 RegistrationNumber = carInfo["Registration Number"],
-                Name = carInfo["make"],
-                Model = carInfo["model"],
-                YearOfProduction = Convert.ToInt32(carInfo["year of production"])
+                Name = carInfo["Make"],
+                Model = carInfo["Model"],
+                YearOfProduction = Convert.ToInt32(carInfo["Year of production"])
             };
 
-            allCars.Add(car);
-
-            return allCars;
-
+            return car;
         }
 
         public List<Car> DelateCar(Car car)
         {
             var allCars = GetAllCars();
             allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));
-            Console.WriteLine($@"Registration number: {car.RegistrationNumber} delated from database.");
+            
 
             return allCars;
         }
@@ -102,6 +97,7 @@ namespace DAO_Example
         {
             List<Car> allCars = GetAllCars();
 
+            // doesn't work, don't know why?
             if (allCars.Contains(car))
             {
                 car.RegistrationNumber = carInfo["Registration Number"];

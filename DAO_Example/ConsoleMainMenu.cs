@@ -12,6 +12,11 @@ namespace DAO_Example
         private string[] menuOptions = { "Show all records", "Find record", "Create record", 
             "Update record", "Delate record", "Exit" };
 
+        public void ConsoleClear()
+        {
+            Console.Clear();
+        }
+
         public void ShowMenu()
         {
             Console.WriteLine(new string('-', 30));
@@ -45,6 +50,7 @@ namespace DAO_Example
 
         public void PrintCar(Car car)
         {
+            Console.WriteLine(new string('-', 30));
             Console.WriteLine($"Registration number: {car.RegistrationNumber}\n" +
                 $"Name: {car.Name}\n" +
                 $"Model: {car.Model}\n" +
@@ -57,12 +63,12 @@ namespace DAO_Example
             Dictionary<string, string> carInput = new Dictionary<string, string>()
             {
                 {"Registration Number", string.Empty},
-                {"make", string.Empty},
-                {"model", string.Empty},
-                {"year of production", string.Empty}
+                {"Make", string.Empty},
+                {"Model", string.Empty},
+                {"Year of production", string.Empty}
             };
-            //string[] carInput = {"car's Registration Number", "car's make", "car's model", "car's year of production"};
 
+            // gives an error on iteration of second element, don't know why
             foreach (var item in carInput)
             {
                 Console.Write($"Input new car's {item.Key}: ");
@@ -190,10 +196,10 @@ namespace DAO_Example
 
         public void UserChoice(int userChoice, ICarRepo repo)
         {
+            List<Car> allCars = repo.GetAllCars();
             switch (userChoice)
             {
                 case 1:
-                    List<Car> allCars = repo.GetAllCars();
                     foreach (var car in allCars)
                     {
                         PrintCar(car);
@@ -206,7 +212,8 @@ namespace DAO_Example
                     break;
                 case 3:
                     var createdRecord =repo.CreateCar(CreateCarInput());
-                    repo.WriteFile(createdRecord);
+                    allCars.Add(createdRecord);
+                    repo.WriteFile(allCars);
 
                     break;
                 case 4:
@@ -216,7 +223,10 @@ namespace DAO_Example
 
                     break;
                 case 5:
-                    var delatedRecord = repo.DelateCar(repo.GetCar(RegistrationNumberInput()));
+                    Car carToDelate = repo.GetCar(RegistrationNumberInput());
+                    var delatedRecord = repo.DelateCar(carToDelate);
+                    Console.WriteLine($"Registration number: {carToDelate.RegistrationNumber} " +
+                        $"delated from database.");
                     repo.WriteFile(delatedRecord);
 
                     break;
@@ -226,9 +236,5 @@ namespace DAO_Example
             }
         }
 
-        public void ConsoleClear()
-        {
-            Console.Clear();
-        }
     }
 }

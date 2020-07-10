@@ -15,6 +15,8 @@ namespace DAO_Example
 
                 ConsoleMainMenu menu = new ConsoleMainMenu();
 
+                var allCars = repo.GetAllCars();
+
                 menu.ShowMenu();
                 
                 var userChoice = menu.UserInputReader();

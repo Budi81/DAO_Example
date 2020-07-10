@@ -6,9 +6,8 @@ using System.Threading;
 
 namespace DAO_Example
 {
-    /// <summary>
+
     /// Value object
-    /// </summary>
     public class Car
     {
         private string registrationNumber;
