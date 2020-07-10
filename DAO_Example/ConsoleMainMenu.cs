@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 
 namespace DAO_Example
 {
@@ -23,9 +25,18 @@ namespace DAO_Example
             Console.WriteLine(new string('-', 30));
         }
 
+        public string UserInputReader()
+        {
+            string message = "What do you want to do: ";
+            Console.Write(message);
+            return Console.ReadLine();
+        }
+
         public string RegistrationNumberInput()
         {
-            Console.Write("Input registration number of the record you want to edit: ");
+            string message = "Input registration number of the record you want to edit: ";
+            Console.WriteLine(new string('-', message.Length));
+            Console.Write(message);
             string selectedCar = Console.ReadLine().ToUpper();
             Console.Clear();
 
@@ -71,49 +82,129 @@ namespace DAO_Example
                 {"Year of production", car.YearOfProduction.ToString()}
             };
 
-            Console.WriteLine(new string('-', 40));
-            foreach (var item in carInput)
+            var carToUpdateInput = carInput.ToDictionary(entry => entry.Key, entry => entry.Value);
+
+            bool running = true;
+            while (running)
             {
-                Console.WriteLine($"{item.Key}: ", item.Value);
+                Console.WriteLine(new string('-', 40));
+                foreach (var item in carToUpdateInput)
+                {
+                    Console.WriteLine($"{item.Key}: {item.Value}");
+                }
+                Console.WriteLine(new string('-', 40));
+
+                Console.WriteLine("Which record you want to update:\n" +
+                    $"1) {carToUpdateInput.Keys.ToList()[0]}\n" +
+                    $"2) {carToUpdateInput.Keys.ToList()[1]}\n" +
+                    $"3) {carToUpdateInput.Keys.ToList()[2]}\n" +
+                    $"4) {carToUpdateInput.Keys.ToList()[3]}\n" +
+                    $"5) Apply changes and exit\n" +
+                    $"6) Exit to Main menu");
+
+                string userInput = Console.ReadLine();
+
+                if (int.TryParse(userInput, out _))
+                {
+                    switch (Convert.ToInt32(userInput))
+                    {
+                        case 1:
+                            Console.Write($"Input new {carToUpdateInput.Keys.ToList()[0]}: ");
+                            string newRegistrationNumber = Console.ReadLine().ToUpper();
+                            if (newRegistrationNumber.Length == 7)
+                            {
+                                carToUpdateInput["Registration number"] = newRegistrationNumber;
+                                Console.WriteLine($"Registration number was changed to: {carToUpdateInput["Registration number"]}");
+                                Thread.Sleep(2000);
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                Console.WriteLine("That's not a proper registration number");
+                                Thread.Sleep(2000);
+                                Console.Clear();
+                            }
+
+                            break;
+                        case 2:
+                            Console.Write($"Input new {carToUpdateInput.Keys.ToList()[1]}: ");
+                            string newMake = Console.ReadLine();
+                            carToUpdateInput["Make"] = newMake;
+                            Console.WriteLine($"Make was changed to: {carToUpdateInput["Make"]}");
+                            Thread.Sleep(2000);
+                            Console.Clear();
+
+                            break;
+                        case 3:
+                            Console.Write($"Input new {carToUpdateInput.Keys.ToList()[2]}: ");
+                            string newModel = Console.ReadLine();
+                            carToUpdateInput["Model"] = newModel;
+                            Console.WriteLine($"Model was changed to: {carToUpdateInput["Model"]}");
+                            Thread.Sleep(2000);
+                            Console.Clear();
+
+                            break;
+                        case 4:
+                            Console.Write($"Input new {carToUpdateInput.Keys.ToList()[3]}: ");
+                            string newYearOfProduction = Console.ReadLine();
+                            if (int.TryParse(newYearOfProduction, out _) && newYearOfProduction.Length <= 4)
+                            {
+                                carToUpdateInput["Year of production"] = newYearOfProduction;
+                                Console.WriteLine($"Year of production was changed to: {carToUpdateInput["Year of production"]}");
+                                Thread.Sleep(2000);
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Year of production must be four digit long");
+                                Thread.Sleep(2000);
+                                Console.Clear();
+                            }
+
+                            break;
+                        case 5:
+                            carInput = carToUpdateInput.ToDictionary(entry => entry.Key, entry => entry.Value);
+                            running = false;
+                            
+                            break;
+                        case 6:
+                            running = false;
+
+                            break;
+                        default:
+                            Console.WriteLine("There's no such option to pick!");
+                            Thread.Sleep(2000);
+                            Console.Clear();
+
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException(string.Empty, "Wrong imput. Use numbers from 1 to 5");
+                }
             }
-            Console.WriteLine(new string('-', 40));
-
-
-            Console.WriteLine("Which record you want to update:\n" +
-                $"1) {carInput.Keys.ToList()[0]}\n" +
-                $"2) {carInput.Keys.ToList()[1]}\n" +
-                $"3) {carInput.Keys.ToList()[2]}\n" +
-                $"4) {carInput.Keys.ToList()[3]}\n");
-
-            Console.ReadLine();
 
             return carInput;
         }
 
-        public void EndProgram(bool endProgram)
-        {
-            endProgram = true;
-        }
-
-        public void UserChoice(int userChoice, List<Car> allCars, ICarRepo repo, bool endProgram)
+        public void UserChoice(int userChoice, ICarRepo repo)
         {
             switch (userChoice)
             {
                 case 1:
-
+                    List<Car> allCars = repo.GetAllCars();
                     foreach (var car in allCars)
                     {
                         PrintCar(car);
                     }
+
                     break;
                 case 2:
-
-                    Console.WriteLine();
                     PrintCar(repo.GetCar(RegistrationNumberInput()));
 
                     break;
                 case 3:
-
                     var createdRecord =repo.CreateCar(CreateCarInput());
                     repo.WriteFile(createdRecord);
 
@@ -127,10 +218,6 @@ namespace DAO_Example
                 case 5:
                     var delatedRecord = repo.DelateCar(repo.GetCar(RegistrationNumberInput()));
                     repo.WriteFile(delatedRecord);
-
-                    break;
-                case 6:
-                    EndProgram(endProgram);
 
                     break;
                 default:

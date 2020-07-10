@@ -16,12 +16,22 @@ namespace DAO_Example
                 ConsoleMainMenu menu = new ConsoleMainMenu();
 
                 menu.ShowMenu();
-                var userChoice = int.Parse(Console.ReadLine());
+                
+                var userChoice = menu.UserInputReader();
 
-                menu.ConsoleClear();
-                var allCars = repo.GetAllCars();
-
-                menu.UserChoice(userChoice, allCars, repo, endProgram);
+                if (userChoice == "6")
+                {
+                    endProgram = true;
+                }
+                else if (int.TryParse(userChoice, out _))
+                {
+                    menu.ConsoleClear();
+                    menu.UserChoice(int.Parse(userChoice), repo);
+                }
+                else
+                {
+                    throw new ArgumentException("You need to chose one of the available options!");
+                }
             }
         }
     }
