@@ -13,9 +13,9 @@ namespace DAO_Example
             {
                 ICarRepo repo = new CarRepoFromFile();
 
-                ConsoleMainMenu menu = new ConsoleMainMenu();
-
                 var allCars = repo.GetAllCars();
+
+                ConsoleMainMenu menu = new ConsoleMainMenu();
 
                 menu.ShowMenu();
                 
