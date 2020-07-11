@@ -13,8 +13,13 @@ namespace DAO_Example
     {
         private string fileName = "dane.txt";
 
+        private List<Car> allCars = new List<Car>();
+
+        public List<Car> AllCars { get => allCars; set => allCars = value; }
+
         public Car CreateCar(Dictionary<string, string> carInfo)
         { 
+
             Car car = new Car
             {
                 RegistrationNumber = carInfo["Registration Number"],

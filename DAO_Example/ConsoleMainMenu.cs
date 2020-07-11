@@ -194,6 +194,17 @@ namespace DAO_Example
             return carInput;
         }
 
+        public void DelatedCarInfo(Car car)
+        {
+            Console.WriteLine($"Registration number: {car.RegistrationNumber} " +
+                        $"delated from database.");
+        }
+
+        public void WrongInputInfo()
+        {
+            Console.WriteLine("There is no such option!");
+        }
+
         public void UserChoice(int userChoice, ICarRepo repo)
         {
             List<Car> allCars = repo.GetAllCars();
@@ -225,13 +236,12 @@ namespace DAO_Example
                 case 5:
                     Car carToDelate = repo.GetCar(RegistrationNumberInput());
                     var delatedRecord = repo.DelateCar(carToDelate);
-                    Console.WriteLine($"Registration number: {carToDelate.RegistrationNumber} " +
-                        $"delated from database.");
+                    DelatedCarInfo(carToDelate);
                     repo.WriteFile(delatedRecord);
 
                     break;
                 default:
-                    Console.WriteLine("Wrong Choice");
+                    WrongInputInfo();
                     break;
             }
         }
