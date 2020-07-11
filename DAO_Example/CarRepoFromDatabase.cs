@@ -46,7 +46,7 @@ namespace DAO_Example
             throw new NotImplementedException();
         }
 
-        public List<Car> DelateCar(Car car)
+        public void DelateCar(Car car, List<Car> allCars)
         {
             throw new NotImplementedException();
         }
@@ -56,8 +56,7 @@ namespace DAO_Example
             throw new NotImplementedException();
         }
 
-
-        public List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo)
+        public void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars)
         {
             throw new NotImplementedException();
         }

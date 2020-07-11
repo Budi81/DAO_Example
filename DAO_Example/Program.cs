@@ -48,15 +48,15 @@ namespace DAO_Example
                         break;
                     case 4:
                         var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
-                        var updatedRecord = repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate));
-                        repo.WriteFile(updatedRecord);
+                        repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate), allCars);
+                        repo.WriteFile(allCars);
 
                         break;
                     case 5:
                         Car carToDelate = repo.GetCar(menu.RegistrationNumberInput());
-                        var delatedRecord = repo.DelateCar(carToDelate);
+                        repo.DelateCar(carToDelate, allCars);
                         menu.DelatedCarInfo(carToDelate);
-                        repo.WriteFile(delatedRecord);
+                        repo.WriteFile(allCars);
 
                         break;
                     case 6:

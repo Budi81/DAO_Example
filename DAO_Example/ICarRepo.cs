@@ -12,9 +12,9 @@ namespace DAO_Example
 
         Car CreateCar(Dictionary<string, string> carInfo);
 
-        List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo);
+        void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars);
 
-        List<Car> DelateCar(Car car);
+        void DelateCar(Car car, List<Car> allCars);
 
         Car GetCar(string registrationNumber);
 

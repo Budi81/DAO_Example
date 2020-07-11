@@ -15,7 +15,6 @@ namespace DAO_Example
 
         public Car CreateCar(Dictionary<string, string> carInfo)
         { 
-
             Car car = new Car
             {
                 RegistrationNumber = carInfo["Registration Number"],
@@ -27,13 +26,9 @@ namespace DAO_Example
             return car;
         }
 
-        public List<Car> DelateCar(Car car)
+        public void DelateCar(Car car, List<Car> allCars)
         {
-            var allCars = GetAllCars();
-            allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));
-            
-
-            return allCars;
+            allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));            
         }
          
         public void WriteFile(List<Car> allCars)
@@ -94,11 +89,9 @@ namespace DAO_Example
            return GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
         }
 
-        public List<Car> UpdateCar(Car car, Dictionary<string, string> carInfo)
+        public void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars)
         {
-            List<Car> allCars = GetAllCars();
-
-            // doesn't work, don't know why?
+            // This "if" doesn't work, I don't undertand why? 
             if (allCars.Contains(car))
             {
                 car.RegistrationNumber = carInfo["Registration Number"];
@@ -110,8 +103,6 @@ namespace DAO_Example
             {
                 Console.WriteLine("No such record in database.");
             }
-
-            return allCars;
         }
     }
 }
