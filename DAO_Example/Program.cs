@@ -18,22 +18,69 @@ namespace DAO_Example
                 ConsoleMainMenu menu = new ConsoleMainMenu();
 
                 menu.ShowMenu();
-                
+
                 var userChoice = menu.UserInputReader();
 
-                if (userChoice == "6")
+                while (!(int.TryParse(userChoice, out _)))
                 {
-                    endProgram = true;
+                    menu.WrongInputInfo();
+                    userChoice = menu.UserInputReader();
                 }
-                else if (int.TryParse(userChoice, out _))
+
+                switch (int.Parse(userChoice))
                 {
-                    menu.ConsoleClear();
-                    menu.UserChoice(int.Parse(userChoice), repo);
+                    case 1:
+                        foreach (var car in allCars)
+                        {
+                            menu.PrintCar(car);
+                        }
+
+                        break;
+                    case 2:
+                        menu.PrintCar(repo.GetCar(menu.RegistrationNumberInput()));
+
+                        break;
+                    case 3:
+                        var createdRecord = repo.CreateCar(menu.CreateCarInput());
+                        allCars.Add(createdRecord);
+                        repo.WriteFile(allCars);
+
+                        break;
+                    case 4:
+                        var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
+                        var updatedRecord = repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate));
+                        repo.WriteFile(updatedRecord);
+
+                        break;
+                    case 5:
+                        Car carToDelate = repo.GetCar(menu.RegistrationNumberInput());
+                        var delatedRecord = repo.DelateCar(carToDelate);
+                        menu.DelatedCarInfo(carToDelate);
+                        repo.WriteFile(delatedRecord);
+
+                        break;
+                    case 6:
+                        endProgram = true;
+
+                        break;
+                    default:
+                        menu.WrongInputInfo();
+                        break;
                 }
-                else
-                {
-                    throw new ArgumentException("You need to chose one of the available options!");
-                }
+
+                //if (userChoice == "6")
+                //{
+                //    endProgram = true;
+                //}
+                //else if (int.TryParse(userChoice, out _))
+                //{
+                //    menu.ConsoleClear();
+                //    menu.UserChoice(int.Parse(userChoice), repo);
+                //}
+                //else
+                //{
+                //    throw new ArgumentException("You need to chose one of the available options!");
+                //}
             }
         }
     }

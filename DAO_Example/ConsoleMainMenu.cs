@@ -205,46 +205,46 @@ namespace DAO_Example
             Console.WriteLine("There is no such option!");
         }
 
-        public void UserChoice(int userChoice, ICarRepo repo)
-        {
-            List<Car> allCars = repo.GetAllCars();
-            switch (userChoice)
-            {
-                case 1:
-                    foreach (var car in allCars)
-                    {
-                        PrintCar(car);
-                    }
+        //public void UserChoice(int userChoice, ICarRepo repo)
+        //{
+        //    List<Car> allCars = repo.GetAllCars();
+        //    switch (userChoice)
+        //    {
+        //        case 1:
+        //            foreach (var car in allCars)
+        //            {
+        //                PrintCar(car);
+        //            }
 
-                    break;
-                case 2:
-                    PrintCar(repo.GetCar(RegistrationNumberInput()));
+        //            break;
+        //        case 2:
+        //            PrintCar(repo.GetCar(RegistrationNumberInput()));
 
-                    break;
-                case 3:
-                    var createdRecord =repo.CreateCar(CreateCarInput());
-                    allCars.Add(createdRecord);
-                    repo.WriteFile(allCars);
+        //            break;
+        //        case 3:
+        //            var createdRecord =repo.CreateCar(CreateCarInput());
+        //            allCars.Add(createdRecord);
+        //            repo.WriteFile(allCars);
 
-                    break;
-                case 4:
-                    var recordToUpdate = repo.GetCar(RegistrationNumberInput());
-                    var updatedRecord = repo.UpdateCar(recordToUpdate,UpdateCarInput(recordToUpdate));
-                    repo.WriteFile(updatedRecord);
+        //            break;
+        //        case 4:
+        //            var recordToUpdate = repo.GetCar(RegistrationNumberInput());
+        //            var updatedRecord = repo.UpdateCar(recordToUpdate,UpdateCarInput(recordToUpdate));
+        //            repo.WriteFile(updatedRecord);
 
-                    break;
-                case 5:
-                    Car carToDelate = repo.GetCar(RegistrationNumberInput());
-                    var delatedRecord = repo.DelateCar(carToDelate);
-                    DelatedCarInfo(carToDelate);
-                    repo.WriteFile(delatedRecord);
+        //            break;
+        //        case 5:
+        //            Car carToDelate = repo.GetCar(RegistrationNumberInput());
+        //            var delatedRecord = repo.DelateCar(carToDelate);
+        //            DelatedCarInfo(carToDelate);
+        //            repo.WriteFile(delatedRecord);
 
-                    break;
-                default:
-                    WrongInputInfo();
-                    break;
-            }
-        }
+        //            break;
+        //        default:
+        //            WrongInputInfo();
+        //            break;
+        //    }
+        //}
 
     }
 }
