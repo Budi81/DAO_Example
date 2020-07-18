@@ -41,12 +41,12 @@ namespace DAO_Example
             return cars;
         }
 
-        public Car CreateCar(Dictionary<string, string> carInfo)
+        public void CreateCar(Dictionary<string, string> carInfo)
         {
             throw new NotImplementedException();
         }
 
-        public void DelateCar(Car car, List<Car> allCars)
+        public void DelateCar(Car car)
         {
             throw new NotImplementedException();
         }
@@ -56,12 +56,12 @@ namespace DAO_Example
             throw new NotImplementedException();
         }
 
-        public void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars)
+        public void UpdateCar(Car car, Dictionary<string, string> carInfo)
         {
             throw new NotImplementedException();
         }
 
-        public void WriteFile(List<Car> allCars)
+        public bool CheckIfCarExists(Car car)
         {
             throw new NotImplementedException();
         }

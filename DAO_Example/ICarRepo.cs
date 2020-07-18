@@ -10,14 +10,14 @@ namespace DAO_Example
     {
         List<Car> GetAllCars();
 
-        Car CreateCar(Dictionary<string, string> carInfo);
+        void CreateCar(Dictionary<string, string> carInfo);
 
-        void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars);
+        void UpdateCar(Car car, Dictionary<string, string> carInfo);
 
-        void DelateCar(Car car, List<Car> allCars);
+        void DelateCar(Car car);
 
         Car GetCar(string registrationNumber);
 
-        void WriteFile(List<Car> allCars);
+        bool CheckIfCarExists(Car car);
     }
 }

@@ -13,8 +13,6 @@ namespace DAO_Example
             {
                 ICarRepo repo = new CarRepoFromFile();
 
-                var allCars = repo.GetAllCars();
-
                 ConsoleMainMenu menu = new ConsoleMainMenu();
 
                 menu.ShowMenu();
@@ -30,33 +28,37 @@ namespace DAO_Example
                 switch (int.Parse(userChoice))
                 {
                     case 1:
-                        foreach (var car in allCars)
+                        foreach (var car in repo.GetAllCars())
                         {
                             menu.PrintCar(car);
                         }
 
                         break;
                     case 2:
-                        menu.PrintCar(repo.GetCar(menu.RegistrationNumberInput()));
+                        var registrationNumberToFind = menu.RegistrationNumberInput();
+                        if (repo.CheckIfCarExists(repo.GetCar(registrationNumberToFind)))
+                        {
+                            menu.PrintCar(repo.GetCar(menu.RegistrationNumberInput()));
+                        }
+                        else
+                        {
+                            menu.NoRecordInDatabaseInfo();
+                        }
 
                         break;
                     case 3:
-                        var createdRecord = repo.CreateCar(menu.CreateCarInput());
-                        allCars.Add(createdRecord);
-                        repo.WriteFile(allCars);
+                        repo.CreateCar(menu.CreateCarInput());
 
                         break;
                     case 4:
                         var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
-                        repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate), allCars);
-                        repo.WriteFile(allCars);
+                        repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate)); 
 
                         break;
                     case 5:
-                        Car carToDelate = repo.GetCar(menu.RegistrationNumberInput());
-                        repo.DelateCar(carToDelate, allCars);
+                        var carToDelate = repo.GetCar(menu.RegistrationNumberInput());
+                        repo.DelateCar(carToDelate);
                         menu.DelatedCarInfo(carToDelate);
-                        repo.WriteFile(allCars);
 
                         break;
                     case 6:
@@ -65,6 +67,7 @@ namespace DAO_Example
                         break;
                     default:
                         menu.WrongInputInfo();
+
                         break;
                 }
 

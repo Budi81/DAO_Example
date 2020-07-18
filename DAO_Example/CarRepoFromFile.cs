@@ -13,48 +13,44 @@ namespace DAO_Example
     {
         private string fileName = "dane.txt";
 
-        public Car CreateCar(Dictionary<string, string> carInfo)
-        { 
-            Car car = new Car
-            {
-                RegistrationNumber = carInfo["Registration Number"],
-                Name = carInfo["Make"],
-                Model = carInfo["Model"],
-                YearOfProduction = Convert.ToInt32(carInfo["Year of production"])
-            };
-
-            return car;
-        }
-
-        public void DelateCar(Car car, List<Car> allCars)
-        {
-            allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));            
-        }
-         
-        public void WriteFile(List<Car> allCars)
+        public void CreateCar(Dictionary<string, string> carInfo)
         {
             FileInfo file = new FileInfo(fileName);
 
-            if (file.Exists)
-            {
-                file.Delete();
-                file.Create().Close();
-            }
-            else
+            if (!file.Exists)
             {
                 file.Create().Close();
             }
-
+            /*
+             I don't know why when sw.Writeline command doesn't write  string from new line?
+             I had to use empty Writeline but it will give error if the file will be empty. 
+            */
             using (StreamWriter sw = file.AppendText())
             {
-                foreach (var item in allCars)
-                {
-                    string line = $"{item.RegistrationNumber}, {item.Name}, " +
-                        $"{item.Model}, {item.YearOfProduction}";
+                sw.WriteLine();
+                string line = $"{carInfo["Registration number"]}, {carInfo["Make"]}, " +
+                    $"{carInfo["Model"]}, {carInfo["Year of production"]}";
 
-                    sw.WriteLine(line);
-                }
+                sw.WriteLine(line);
             }
+
+            //Car car = new Car
+            //{
+            //    RegistrationNumber = carInfo["Registration Number"],
+            //    Name = carInfo["Make"],
+            //    Model = carInfo["Model"],
+            //    YearOfProduction = Convert.ToInt32(carInfo["Year of production"])
+            //};
+
+            //return car;
+        }
+
+        public void DelateCar(Car car)
+        {
+            var allCars = GetAllCars(); 
+            allCars.Remove(allCars.FirstOrDefault(x => x.RegistrationNumber == car.RegistrationNumber));
+
+            WriteFile(allCars);
         }
 
         public List<Car> GetAllCars()
@@ -89,19 +85,54 @@ namespace DAO_Example
            return GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
         }
 
-        public void UpdateCar(Car car, Dictionary<string, string> carInfo, List<Car> allCars)
+        public void UpdateCar(Car car, Dictionary<string, string> carInfo)
         {
-            // This "if" doesn't work, I don't undertand why? 
-            if (allCars.Contains(car))
+            var allCars = GetAllCars();
+            var carToUpdate = allCars.Find(x => x.RegistrationNumber == car.RegistrationNumber);
+            carToUpdate.RegistrationNumber = carInfo["Registration number"];
+            carToUpdate.Name = carInfo["Make"];
+            carToUpdate.Model = carInfo["Model"];
+            carToUpdate.YearOfProduction = Convert.ToInt32(carInfo["Year of production"]);
+
+            WriteFile(allCars);
+        }
+
+        public bool CheckIfCarExists(Car car)
+        {
+            // I do not know how to make it work
+            if (GetAllCars().Contains(car))
             {
-                car.RegistrationNumber = carInfo["Registration Number"];
-                car.Name = carInfo["Make"];
-                car.Model = carInfo["Model"];
-                car.YearOfProduction = Convert.ToInt32(carInfo["Year of production"]);
+                return true;
             }
             else
             {
-                Console.WriteLine("No such record in database.");
+                return false;
+            }
+        }
+        
+        public void WriteFile(List<Car> allCars)
+        {
+            FileInfo file = new FileInfo(fileName);
+
+            if (file.Exists)
+            {
+                file.Delete();
+                file.Create().Close();
+            }
+            else
+            {
+                file.Create().Close();
+            }
+
+            using (StreamWriter sw = file.AppendText())
+            {
+                foreach (var item in allCars)
+                {
+                    string line = $"{item.RegistrationNumber}, {item.Name}, " +
+                        $"{item.Model}, {item.YearOfProduction}";
+
+                    sw.WriteLine(line);
+                }
             }
         }
     }

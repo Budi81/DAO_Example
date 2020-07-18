@@ -62,18 +62,27 @@ namespace DAO_Example
         {
             Dictionary<string, string> carInput = new Dictionary<string, string>()
             {
-                {"Registration Number", string.Empty},
+                {"Registration number", string.Empty},
                 {"Make", string.Empty},
                 {"Model", string.Empty},
                 {"Year of production", string.Empty}
             };
 
+            Console.Write("Input new car's Registration number: ");
+            carInput["Registration number"] = Console.ReadLine();
+            Console.Write("Input new car's make: ");
+            carInput["Make"] = Console.ReadLine();
+            Console.Write("Input new car's model: ");
+            carInput["Model"] = Console.ReadLine();
+            Console.Write("Input new car's year of production: ");
+            carInput["Year of production"] = Console.ReadLine();
+
             // gives an error on iteration of second element, don't know why
-            foreach (var item in carInput)
-            {
-                Console.Write($"Input new car's {item.Key}: ");
-                carInput[item.Key] = Console.ReadLine();
-            }
+            //foreach (var item in carInput)
+            //{
+            //    Console.Write($"Input new car's {item.Key}: ");
+            //    carInput[item.Key] = Console.ReadLine();
+            //}
 
             return carInput;
         }
@@ -203,6 +212,11 @@ namespace DAO_Example
         public void WrongInputInfo()
         {
             Console.WriteLine("There is no such option!");
+        }
+
+        public void NoRecordInDatabaseInfo()
+        {
+            Console.WriteLine("There is no car with such registration number in database.");
         }
 
         //public void UserChoice(int userChoice, ICarRepo repo)
