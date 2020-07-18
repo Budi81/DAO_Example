@@ -102,8 +102,8 @@ namespace DAO_Example
             {
                 return false;
             }
-        }
-        
+        }       
+
         public void WriteFile(List<Car> allCars)
         {
             FileInfo file = new FileInfo(fileName);
