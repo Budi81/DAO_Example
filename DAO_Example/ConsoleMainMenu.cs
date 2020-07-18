@@ -69,13 +69,13 @@ namespace DAO_Example
             };
 
             Console.Write("Input new car's Registration number: ");
-            carInput["Registration number"] = Console.ReadLine();
+            carInput["Registration number"] = Console.ReadLine().ToUpper().Trim();
             Console.Write("Input new car's make: ");
-            carInput["Make"] = Console.ReadLine();
+            carInput["Make"] = Console.ReadLine().Trim();
             Console.Write("Input new car's model: ");
-            carInput["Model"] = Console.ReadLine();
+            carInput["Model"] = Console.ReadLine().Trim();
             Console.Write("Input new car's year of production: ");
-            carInput["Year of production"] = Console.ReadLine();
+            carInput["Year of production"] = Console.ReadLine().Trim();
 
             // gives an error on iteration of second element, don't know why
             //foreach (var item in carInput)
