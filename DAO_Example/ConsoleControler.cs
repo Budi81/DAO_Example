@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace DAO_Example
 {
-    public class ConsoleMainMenu
+    public class ConsoleControler
     {
         private string[] menuOptions = { "Show all records", "Find record", "Create record", 
             "Update record", "Delate record", "Exit" };
@@ -52,7 +52,7 @@ namespace DAO_Example
         {
             Console.WriteLine(new string('-', 30));
             Console.WriteLine($"Registration number: {car.RegistrationNumber}\n" +
-                $"Name: {car.Name}\n" +
+                $"Name: {car.Make}\n" +
                 $"Model: {car.Model}\n" +
                 $"Year of production: {car.YearOfProduction}");
             Console.WriteLine(new string('-', 30));
@@ -92,7 +92,7 @@ namespace DAO_Example
             Dictionary<string, string> carInput = new Dictionary<string, string>()
             {
                 {"Registration number", car.RegistrationNumber},
-                {"Make", car.Name},
+                {"Make", car.Make},
                 {"Model", car.Model},
                 {"Year of production", car.YearOfProduction.ToString()}
             };

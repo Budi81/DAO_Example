@@ -65,13 +65,7 @@ namespace DAO_Example
                 {
                     string[] s = line.Split(",");
 
-                    Car car = new Car
-                    {
-                        RegistrationNumber = s[0],
-                        Name = s[1],
-                        Model = s[2],
-                        YearOfProduction = Convert.ToInt32(s[3])
-                    };
+                    Car car = new Car(s[0], s[1], s[2], Convert.ToInt32(s[3]));
 
                     cars.Add(car);
                 }
@@ -89,10 +83,10 @@ namespace DAO_Example
         {
             var allCars = GetAllCars();
             var carToUpdate = allCars.Find(x => x.RegistrationNumber == car.RegistrationNumber);
-            carToUpdate.RegistrationNumber = carInfo["Registration number"];
-            carToUpdate.Name = carInfo["Make"];
-            carToUpdate.Model = carInfo["Model"];
-            carToUpdate.YearOfProduction = Convert.ToInt32(carInfo["Year of production"]);
+            carToUpdate.ModifyRegistrationNumber(carInfo["Registration number"]);
+            carToUpdate.ModifyMake(carInfo["Make"]);
+            carToUpdate.ModifyModel(carInfo["Model"]);
+            carToUpdate.ModifyYearOfProduction(Convert.ToInt32(carInfo["Year of production"]));
 
             WriteFile(allCars);
         }
@@ -128,7 +122,7 @@ namespace DAO_Example
             {
                 foreach (var item in allCars)
                 {
-                    string line = $"{item.RegistrationNumber}, {item.Name}, " +
+                    string line = $"{item.RegistrationNumber}, {item.Make}, " +
                         $"{item.Model}, {item.YearOfProduction}";
 
                     sw.WriteLine(line);

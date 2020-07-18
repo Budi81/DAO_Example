@@ -25,12 +25,8 @@ namespace DAO_Example
 
             while (reader.Read())
             {
-                Car car = new Car
+                Car car = new Car(reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), Convert.ToInt32(reader[4]))
                 {
-                    RegistrationNumber = reader[1].ToString(),
-                    Name = reader[2].ToString(),
-                    Model = reader[3].ToString(),
-                    YearOfProduction = Convert.ToInt32(reader[4])
                 };
 
                    cars.Add(car);
