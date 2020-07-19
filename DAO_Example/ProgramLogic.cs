@@ -37,9 +37,9 @@ namespace DAO_Example
                         break;
                     case 2:
                         var registrationNumberToFind = menu.RegistrationNumberInput();
-                        if (repo.CheckIfCarExists(repo.GetCar(registrationNumberToFind)))
+                        if (repo.GetCar(registrationNumberToFind) != null)
                         {
-                            menu.PrintCar(repo.GetCar(menu.RegistrationNumberInput()));
+                            menu.PrintCar(repo.GetCar(registrationNumberToFind));
                         }
                         else
                         {
@@ -53,13 +53,27 @@ namespace DAO_Example
                         break;
                     case 4:
                         var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
-                        repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate));
+                        if (recordToUpdate != null)
+                        {
+                            repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate));
+                        }
+                        else
+                        {
+                            menu.NoRecordInDatabaseInfo();
+                        }
 
                         break;
                     case 5:
                         var carToDelate = repo.GetCar(menu.RegistrationNumberInput());
-                        repo.DelateCar(carToDelate);
-                        menu.DelatedCarInfo(carToDelate);
+                        if (carToDelate != null)
+                        {
+                            repo.DelateCar(carToDelate);
+                            menu.DelatedCarInfo(carToDelate);
+                        }
+                        else
+                        {
+                            menu.NoRecordInDatabaseInfo();
+                        }
 
                         break;
                     case 6:

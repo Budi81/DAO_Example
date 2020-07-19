@@ -94,13 +94,13 @@ namespace DAO_Example
         public bool CheckIfCarExists(Car car)
         {
             // I do not know how to make it work
-            if (GetAllCars().Contains(car))
+            if (GetAllCars().FirstOrDefault(c => c.RegistrationNumber == car.RegistrationNumber) == null)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }       
 
