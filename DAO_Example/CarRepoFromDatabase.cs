@@ -8,7 +8,7 @@ namespace DAO_Example
 {
     public class CarRepoFromDatabase : ICarRepo
     {
-        private string connectionString = @"Server=localhost\SQLEXPRESS01;Database=CarsDatabase;Trusted_Connection = True;";
+        private string connectionString = @"Server=localhost\SQLEXPRESS;Database=CarsDatabase;Trusted_Connection = True;";
         private string querryString = @"SELECT * from [Dao].[Vehicles]";
 
         public List<Car> GetAllCars()
