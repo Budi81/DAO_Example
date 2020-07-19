@@ -57,9 +57,5 @@ namespace DAO_Example
             throw new NotImplementedException();
         }
 
-        public bool CheckIfCarExists(Car car)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

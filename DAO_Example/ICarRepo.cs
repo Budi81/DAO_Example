@@ -18,6 +18,5 @@ namespace DAO_Example
 
         Car GetCar(string registrationNumber);
 
-        bool CheckIfCarExists(Car car);
     }
 }

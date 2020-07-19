@@ -91,19 +91,6 @@ namespace DAO_Example
             WriteFile(allCars);
         }
 
-        public bool CheckIfCarExists(Car car)
-        {
-            // I do not know how to make it work
-            if (GetAllCars().FirstOrDefault(c => c.RegistrationNumber == car.RegistrationNumber) == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }       
-
         public void WriteFile(List<Car> allCars)
         {
             FileInfo file = new FileInfo(fileName);
