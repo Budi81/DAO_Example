@@ -8,9 +8,14 @@ namespace DAO_Example
     {
         private bool endProgram = false;
 
-        private ICarRepo repo = new CarRepoFromFile();
+        private ICarRepo repo;
 
         private ConsoleControler menu = new ConsoleControler();
+
+        public ProgramLogic(ICarRepo repo)
+        {
+            this.repo = repo;
+        }
 
         public void ProgramRunning()
         {
