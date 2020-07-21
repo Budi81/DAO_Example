@@ -16,7 +16,7 @@ namespace DAO_Example
 
         void DelateCar(Car car);
 
-        Car GetCar(string registrationNumber);
+        GetCarResult GetCar(string registrationNumber);
 
     }
 }

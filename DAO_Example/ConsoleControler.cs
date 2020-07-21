@@ -77,7 +77,7 @@ namespace DAO_Example
             Console.Write("Input new car's year of production: ");
             carInput["Year of production"] = Console.ReadLine().Trim();
 
-            // gives an error on iteration of second element, don't know why
+            //gives an error on iteration of second element, don't know why
             //foreach (var item in carInput)
             //{
             //    Console.Write($"Input new car's {item.Key}: ");
@@ -214,51 +214,20 @@ namespace DAO_Example
             Console.WriteLine("There is no such option!");
         }
 
+        public void DisplayError(string massage)
+        {
+            Console.WriteLine(massage);
+        }
+
         public void NoRecordInDatabaseInfo()
         {
             Console.WriteLine("There is no car with such registration number in database.");
         }
 
-        //public void UserChoice(int userChoice, ICarRepo repo)
-        //{
-        //    List<Car> allCars = repo.GetAllCars();
-        //    switch (userChoice)
-        //    {
-        //        case 1:
-        //            foreach (var car in allCars)
-        //            {
-        //                PrintCar(car);
-        //            }
-
-        //            break;
-        //        case 2:
-        //            PrintCar(repo.GetCar(RegistrationNumberInput()));
-
-        //            break;
-        //        case 3:
-        //            var createdRecord =repo.CreateCar(CreateCarInput());
-        //            allCars.Add(createdRecord);
-        //            repo.WriteFile(allCars);
-
-        //            break;
-        //        case 4:
-        //            var recordToUpdate = repo.GetCar(RegistrationNumberInput());
-        //            var updatedRecord = repo.UpdateCar(recordToUpdate,UpdateCarInput(recordToUpdate));
-        //            repo.WriteFile(updatedRecord);
-
-        //            break;
-        //        case 5:
-        //            Car carToDelate = repo.GetCar(RegistrationNumberInput());
-        //            var delatedRecord = repo.DelateCar(carToDelate);
-        //            DelatedCarInfo(carToDelate);
-        //            repo.WriteFile(delatedRecord);
-
-        //            break;
-        //        default:
-        //            WrongInputInfo();
-        //            break;
-        //    }
-        //}
+        public void Sleep(int miliseconds)
+        {
+            Thread.Sleep(miliseconds);
+        }
 
     }
 }

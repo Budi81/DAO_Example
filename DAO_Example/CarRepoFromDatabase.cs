@@ -47,7 +47,7 @@ namespace DAO_Example
             throw new NotImplementedException();
         }
 
-        public Car GetCar(string registrationNumber)
+        public GetCarResult GetCar(string registrationNumber)
         {
             throw new NotImplementedException();
         }

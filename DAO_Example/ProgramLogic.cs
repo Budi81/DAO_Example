@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace DAO_Example
 {
@@ -16,6 +17,28 @@ namespace DAO_Example
         {
             this.repo = repo;
         }
+
+        private void ShowAllCars()
+        {
+            try
+            {
+                foreach (var car in repo.GetAllCars())
+                {
+                    menu.PrintCar(car);
+                }
+        }
+            catch(Exception ex)
+            {
+                menu.DisplayError("Wystąpił błąd, aplikacja zostanie zamknięta");
+                menu.Sleep(1500);
+
+            }
+            finally
+            {
+                endProgram = true;
+            }
+
+}
 
         public void ProgramRunning()
         {
@@ -34,17 +57,14 @@ namespace DAO_Example
                 switch (int.Parse(userChoice))
                 {
                     case 1:
-                        foreach (var car in repo.GetAllCars())
-                        {
-                            menu.PrintCar(car);
-                        }
+                        ShowAllCars();
 
                         break;
                     case 2:
-                        var registrationNumberToFind = menu.RegistrationNumberInput();
-                        if (repo.GetCar(registrationNumberToFind) != null)
+                        var result = repo.GetCar(menu.RegistrationNumberInput());
+                        if (result.IsFound)
                         {
-                            menu.PrintCar(repo.GetCar(registrationNumberToFind));
+                            menu.PrintCar(result.FoundEntry);
                         }
                         else
                         {
@@ -58,9 +78,9 @@ namespace DAO_Example
                         break;
                     case 4:
                         var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
-                        if (recordToUpdate != null)
+                        if (recordToUpdate.IsFound)
                         {
-                            repo.UpdateCar(recordToUpdate, menu.UpdateCarInput(recordToUpdate));
+                            repo.UpdateCar(recordToUpdate.FoundEntry, menu.UpdateCarInput(recordToUpdate.FoundEntry));
                         }
                         else
                         {
@@ -70,10 +90,10 @@ namespace DAO_Example
                         break;
                     case 5:
                         var carToDelate = repo.GetCar(menu.RegistrationNumberInput());
-                        if (carToDelate != null)
+                        if (carToDelate.IsFound)
                         {
-                            repo.DelateCar(carToDelate);
-                            menu.DelatedCarInfo(carToDelate);
+                            repo.DelateCar(carToDelate.FoundEntry);
+                            menu.DelatedCarInfo(carToDelate.FoundEntry);
                         }
                         else
                         {

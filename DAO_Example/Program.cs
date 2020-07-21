@@ -7,7 +7,7 @@ namespace DAO_Example
     {
         static void Main(string[] args)
         {
-            ProgramLogic programRunning = new ProgramLogic(new CarRepoFromFile());
+            ProgramLogic programRunning = new ProgramLogic(new CarRepoFromDatabase());
 
             programRunning.ProgramRunning();
         }

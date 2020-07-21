@@ -74,9 +74,17 @@ namespace DAO_Example
             return cars;
         }
 
-        public Car GetCar(string registrationNumber)
+        public GetCarResult GetCar(string registrationNumber)
         { 
-           return GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
+           var car = GetAllCars().FirstOrDefault(c => c.RegistrationNumber == registrationNumber);
+            if (car == null)
+            {
+                return new GetCarResult();
+            }
+            else
+            {
+                return new GetCarResult(car);
+            }
         }
 
         public void UpdateCar(Car car, Dictionary<string, string> carInfo)
@@ -91,7 +99,7 @@ namespace DAO_Example
             WriteFile(allCars);
         }
 
-        public void WriteFile(List<Car> allCars)
+        private void WriteFile(List<Car> allCars)
         {
             FileInfo file = new FileInfo(fileName);
 
@@ -116,6 +124,8 @@ namespace DAO_Example
                 }
             }
         }
+
+
     }
 }
 
