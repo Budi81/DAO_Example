@@ -11,11 +11,12 @@ namespace DAO_Example
 
         private ICarRepo repo;
 
-        private ConsoleControler menu = new ConsoleControler();
+        private IControler controler;
 
-        public ProgramLogic(ICarRepo repo)
+        public ProgramLogic(ICarRepo repo, IControler controler)
         {
             this.repo = repo;
+            this.controler = controler;
         }
 
         private void ShowAllCars()
@@ -24,81 +25,117 @@ namespace DAO_Example
             {
                 foreach (var car in repo.GetAllCars())
                 {
-                    menu.PrintCar(car);
+                    controler.PrintRecord(car);
                 }
         }
             catch(Exception ex)
             {
-                menu.DisplayError("Wystąpił błąd, aplikacja zostanie zamknięta");
-                menu.Sleep(1500);
-
-            }
-            finally
-            {
+                controler.DisplayError("Wystąpił błąd, aplikacja zostanie zamknięta", 1500);
                 endProgram = true;
             }
 
+
 }
+
+        private void ShowCar()
+        {
+            try
+            {
+                var result = repo.GetCar(controler.ChooseRecord());
+                if (result.IsFound)
+                {
+                    controler.PrintRecord(result.FoundEntry);
+                }
+                else
+                {
+                    controler.NoRecordInDatabaseInfo();
+                }
+            }
+            catch
+            {
+                controler.DisplayError("This function is not availble at the moment", 1500);
+            }
+        }
+
+        private void CreateCar()
+        {
+            try
+            {
+                repo.CreateCar(controler.RecordToCreateInformation());
+            }
+            catch
+            {
+                controler.DisplayError("This function is not availble at the moment", 1500);
+            }
+        }
+
+        private void UpdateCar()
+        {
+            try
+            {
+            var recordToUpdate = repo.GetCar(controler.ChooseRecord());
+                if (recordToUpdate.IsFound)
+                {
+                    repo.UpdateCar(recordToUpdate.FoundEntry, controler.RecordToUpdateInformation(recordToUpdate.FoundEntry));
+                }
+                else
+                {
+                    controler.NoRecordInDatabaseInfo();
+                }
+            }
+            catch
+            {
+                controler.DisplayError("This function is not availble at the moment", 1500);
+            }
+        }
+
+        private void DelateCar()
+        {
+            try
+            {
+                var carToDelate = repo.GetCar(controler.ChooseRecord());
+                if (carToDelate.IsFound)
+                {
+                    repo.DelateCar(carToDelate.FoundEntry);
+                    controler.DelatedRecordInfo(carToDelate.FoundEntry);
+                }
+                else
+                {
+                    controler.NoRecordInDatabaseInfo();
+                }
+            }
+            catch
+            {
+                controler.DisplayError("This function is not availble at the moment", 1500);
+            }
+        }
 
         public void ProgramRunning()
         {
             while (!endProgram)
             {
-                menu.ShowMenu();
+                controler.ShowMenu();
 
-                var userChoice = menu.UserInputReader();
-
-                while (!(int.TryParse(userChoice, out _)))
-                {
-                    menu.WrongInputInfo();
-                    userChoice = menu.UserInputReader();
-                }
-
-                switch (int.Parse(userChoice))
+                switch (controler.UserChoice())
                 {
                     case 1:
                         ShowAllCars();
 
                         break;
                     case 2:
-                        var result = repo.GetCar(menu.RegistrationNumberInput());
-                        if (result.IsFound)
-                        {
-                            menu.PrintCar(result.FoundEntry);
-                        }
-                        else
-                        {
-                            menu.NoRecordInDatabaseInfo();
-                        }
+                        ShowCar();
 
                         break;
                     case 3:
-                        repo.CreateCar(menu.CreateCarInput());
+                        CreateCar();
 
                         break;
                     case 4:
-                        var recordToUpdate = repo.GetCar(menu.RegistrationNumberInput());
-                        if (recordToUpdate.IsFound)
-                        {
-                            repo.UpdateCar(recordToUpdate.FoundEntry, menu.UpdateCarInput(recordToUpdate.FoundEntry));
-                        }
-                        else
-                        {
-                            menu.NoRecordInDatabaseInfo();
-                        }
+                        UpdateCar();
 
                         break;
                     case 5:
-                        var carToDelate = repo.GetCar(menu.RegistrationNumberInput());
-                        if (carToDelate.IsFound)
-                        {
-                            repo.DelateCar(carToDelate.FoundEntry);
-                            menu.DelatedCarInfo(carToDelate.FoundEntry);
-                        }
-                        else
-                        {
-                            menu.NoRecordInDatabaseInfo();
-                        }
+                        DelateCar();
 
                         break;
                     case 6:
@@ -106,7 +143,7 @@ namespace DAO_Example
 
                         break;
                     default:
-                        menu.WrongInputInfo();
+                        controler.DisplayError("There is no such option!", 1000);
 
                         break;
                 }

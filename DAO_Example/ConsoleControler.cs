@@ -7,15 +7,10 @@ using System.Threading;
 
 namespace DAO_Example
 {
-    public class ConsoleControler
+    public class ConsoleControler : IControler
     {
         private string[] menuOptions = { "Show all records", "Find record", "Create record", 
             "Update record", "Delate record", "Exit" };
-
-        public void ConsoleClear()
-        {
-            Console.Clear();
-        }
 
         public void ShowMenu()
         {
@@ -30,14 +25,19 @@ namespace DAO_Example
             Console.WriteLine(new string('-', 30));
         }
 
-        public string UserInputReader()
+        public int UserChoice()
         {
-            string message = "What do you want to do: ";
-            Console.Write(message);
-            return Console.ReadLine();
+            Console.Write("What do you want to do: ");
+            var userDecision = Console.ReadLine();
+            while (!(int.TryParse(userDecision, out _)))
+            {
+                Console.WriteLine("There is no such option!");
+            }
+
+            return int.Parse(userDecision);
         }
 
-        public string RegistrationNumberInput()
+        public string ChooseRecord()
         {
             string message = "Input registration number of the record you want to edit: ";
             Console.WriteLine(new string('-', message.Length));
@@ -48,7 +48,7 @@ namespace DAO_Example
             return selectedCar;
         }
 
-        public void PrintCar(Car car)
+        public void PrintRecord(Car car)
         {
             Console.WriteLine(new string('-', 30));
             Console.WriteLine($"Registration number: {car.RegistrationNumber}\n" +
@@ -58,7 +58,7 @@ namespace DAO_Example
             Console.WriteLine(new string('-', 30));
         }
 
-        public Dictionary<string, string> CreateCarInput()
+        public Dictionary<string, string> RecordToCreateInformation()
         {
             Dictionary<string, string> carInput = new Dictionary<string, string>()
             {
@@ -87,7 +87,7 @@ namespace DAO_Example
             return carInput;
         }
 
-        public Dictionary<string, string> UpdateCarInput(Car car)
+        public Dictionary<string, string> RecordToUpdateInformation(Car car)
         {
             Dictionary<string, string> carInput = new Dictionary<string, string>()
             {
@@ -203,31 +203,21 @@ namespace DAO_Example
             return carInput;
         }
 
-        public void DelatedCarInfo(Car car)
+        public void DelatedRecordInfo(Car car)
         {
             Console.WriteLine($"Registration number: {car.RegistrationNumber} " +
                         $"delated from database.");
         }
 
-        public void WrongInputInfo()
-        {
-            Console.WriteLine("There is no such option!");
-        }
-
-        public void DisplayError(string massage)
+        public void DisplayError(string massage, int miliseconds)
         {
             Console.WriteLine(massage);
+            Thread.Sleep(miliseconds);
         }
 
         public void NoRecordInDatabaseInfo()
         {
             Console.WriteLine("There is no car with such registration number in database.");
         }
-
-        public void Sleep(int miliseconds)
-        {
-            Thread.Sleep(miliseconds);
-        }
-
     }
 }
